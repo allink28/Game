@@ -1,4 +1,5 @@
-package Abstract_and_Mechanics;
+package abstract_and_Mechanics;
+import java.awt.Graphics;
 import java.awt.Point;
 
 
@@ -25,10 +26,21 @@ public class Character extends ScreenObject
         width = 16;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Create a new Character object.
+     */
     public Character() {
         super();
         height = 16;
         width = 16;
+    }
+
+    @Override
+    public void draw(Graphics g)
+    {
+        System.out.println("Character has no graphic");
+
     }
 
 }

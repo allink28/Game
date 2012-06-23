@@ -1,6 +1,8 @@
 
-package Real;
-import Abstract_and_Mechanics.Character;
+package real;
+import abstract_and_Mechanics.Character;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 
 // -------------------------------------------------------------------------
@@ -15,10 +17,22 @@ import java.awt.Point;
 
 public class Player extends Character {
 
+    // ----------------------------------------------------------
+    /**
+     * Create a new Player object.
+     * @param p
+     */
     public Player(Point p)
     {
         super(p);
         // TODO Auto-generated constructor stub
     }
 
+    @Override
+    public void draw(Graphics g)
+    {
+        g.setColor(Color.yellow);
+        g.fillRect(position.x-8, position.y-8, height, width);
+
+    }
 }

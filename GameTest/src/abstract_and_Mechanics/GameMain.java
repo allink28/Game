@@ -1,4 +1,4 @@
-package Abstract_and_Mechanics;
+package abstract_and_Mechanics;
 import javax.swing.JFrame;
 
 //-------------------------------------------------------------------------
