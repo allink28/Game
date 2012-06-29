@@ -1,5 +1,6 @@
 package real;
 
+import abstract_and_Mechanics.GamePanel;
 import abstract_and_Mechanics.ScreenObject;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,33 +15,30 @@ import java.awt.Point;
  */
 public class Laser extends ScreenObject
 {
-    private Point startPoint;
-    private Point laserPosition;
-    private int b;
+    private Point head, tail; //Head is the leading end of the laser.
+    private int b; //b is the y point at which lines cross the x=0 axis.
     private double angle;
     // ----------------------------------------------------------
     /**
      * Create a new Laser object.
      * @param enemyPosition  Starting point of path
-     * @param playerPosition
      */
-    public Laser(Point enemyPosition, Point playerPosition) {
+    public Laser(Point enemyPosition) {
 
-        startPoint = enemyPosition;
-        laserPosition = new Point(startPoint.x, startPoint.y);
-        calculateLine(playerPosition);
+        tail = enemyPosition;
+        head = new Point(tail.x, tail.y);
+        calculateLine();
     }
 
     // ----------------------------------------------------------
     /**
      * 'Fires' another laser
      * @param enemyPosition
-     * @param playerPosition
      */
-    public void reset(Point enemyPosition, Point playerPosition) {
-        startPoint = new Point(enemyPosition.x, enemyPosition.y);
-        laserPosition = new Point(startPoint.x, startPoint.y);
-        calculateLine(playerPosition);
+    public void reset(Point enemyPosition) {
+        tail = new Point(enemyPosition.x, enemyPosition.y);
+        head = new Point(tail.x, tail.y);
+        calculateLine();
     }
 
     @Override
@@ -48,39 +46,39 @@ public class Laser extends ScreenObject
     {
         g.setColor(Color.red);
         move();
-        g.drawLine(startPoint.x, startPoint.y, laserPosition.x, laserPosition.y);
+        g.drawLine(tail.x, tail.y, head.x, head.y);
     }
 
-    private void calculateLine(Point playerPosition) {
-        b = startPoint.y -
-            (startPoint.y-playerPosition.y)/(startPoint.x-playerPosition.x)*startPoint.x;
+    private void calculateLine() {
+        b = GamePanel.player1.position.y-8 -
+            (GamePanel.player1.position.y-8-tail.y)
+            /(GamePanel.player1.position.x-8-tail.x)*GamePanel.player1.position.x-8;
 
-        double random = Math.random();
-        int offset = (int) (50*random);
-        random = Math.random();
-        if(random > .5) {
-            b = b - offset;
+        //Now find angle
+        angle = Math.atan(((b-tail.y)/(double)tail.x));
+
+        /*if(Math.random() > .5) {//Add inaccuracy to shot
+            angle+= Math.random()/20;
         }
         else {
-            b = b + offset;
-        }
-        //Now find angle
-        angle = Math.atan(((b-startPoint.y)/(double)startPoint.x));
-        //System.out.println("b: "+b+" angle: "+angle);
+            angle-= Math.random()/20;
+        }*/
+        System.out.println(angle);
     }
 
     // ----------------------------------------------------------
     /**
      * Update laser position along path
      */
-    private void move() {
-        if(laserPosition.x > 1) {
-            laserPosition.x-=(50*Math.cos(angle));
-            laserPosition.y-=(51*Math.sin(angle));
+    private void move() {//Q1 & Q4 x is wrong sign. so if player is to the right of enemy
+        if(head.x > 1 && head.y > 0 &&
+            head.x < GamePanel.panelWidth && head.y < GamePanel.panelHeight) {
+            head.x-=(80*Math.cos(angle));
+            head.y+=(80*Math.sin(angle));
         }
         else {
-            startPoint.x -=(50*Math.cos(angle));
-            startPoint.y-=(50*Math.sin(angle));
+            tail.x-=(80*Math.cos(angle));
+            tail.y+=(80*Math.sin(angle));
         }
     }
 
@@ -90,7 +88,8 @@ public class Laser extends ScreenObject
      * @return
      */
     public boolean needsReset() {
-        if(startPoint.x < 1)
+        if(tail.x < 1 || tail.y < -20 ||
+            tail.x > GamePanel.panelWidth || tail.y > GamePanel.panelHeight)
             return true;
         return false;
     }

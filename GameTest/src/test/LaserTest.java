@@ -29,7 +29,7 @@ public class LaserTest
     public void setUp()
         throws Exception
     {
-        laser = new Laser(new Point(500, 500), new Point(10, 10));
+        laser = new Laser(new Point(500, 500));
     }
 
     /**

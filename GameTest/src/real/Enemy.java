@@ -16,7 +16,6 @@ import java.awt.Point;
 public class Enemy extends Character
 {
     private Laser laser;
-    private Point playerPosition = null;
 
     // ----------------------------------------------------------
     /**
@@ -35,12 +34,10 @@ public class Enemy extends Character
         //g.fillPolygon(arg0, arg1, arg2)
 
         if(laser == null) {
-            laser = new
-                Laser(new Point(position.x, position.y), playerPosition);
-            //PlayerPosition is only used in calculation.
+            laser = new Laser(new Point(position.x, position.y));
         }
         else if(laser.needsReset()) {
-            laser.reset(new Point(position.x, position.y), playerPosition);
+            laser.reset(new Point(position.x, position.y));
         }
         laser.draw(g);
 
@@ -51,7 +48,7 @@ public class Enemy extends Character
      * Update player position to shoot at.
      * @param p
      */
-    public void updatePP(Point p) {
+    /*public void updatePP(Point p) {
         playerPosition = p;
-    }
+    }*/
 }

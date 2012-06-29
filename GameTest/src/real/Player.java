@@ -17,6 +17,9 @@ import java.awt.Point;
 
 public class Player extends Character {
 
+    private Color color = Color.green;
+    private int health = 3;
+
     // ----------------------------------------------------------
     /**
      * Create a new Player object.
@@ -31,8 +34,26 @@ public class Player extends Character {
     @Override
     public void draw(Graphics g)
     {
-        g.setColor(Color.yellow);
+        g.setColor(color);
         g.fillRect(position.x-8, position.y-8, height, width);
+    }
 
+    public void hit(int damage) {
+        health-=damage;
+
+        switch (health) {
+            case 3:
+                color = Color.green;
+                break;
+            case 2:
+                color = Color.yellow;
+                break;
+            case 1:
+                color = Color.red;
+                break;
+            default:
+                System.out.println("Game over!");
+                color = Color.black;
+        }
     }
 }

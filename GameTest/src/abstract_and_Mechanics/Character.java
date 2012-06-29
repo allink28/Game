@@ -6,6 +6,7 @@ import java.awt.Point;
 // -------------------------------------------------------------------------
 /**
  *  Represents on screen characters
+ *  Players and Enemies
  *
  *  @author Allen
  *  @version Jun 20, 2012
@@ -13,6 +14,8 @@ import java.awt.Point;
 
 public class Character extends ScreenObject
 {
+    public static final int height = 16;
+    public static final int width = 16;
 
     // ----------------------------------------------------------
     /**
@@ -22,8 +25,6 @@ public class Character extends ScreenObject
     public Character( Point p )
     {
         super( p );
-        height = 16;
-        width = 16;
     }
 
     // ----------------------------------------------------------
@@ -32,8 +33,6 @@ public class Character extends ScreenObject
      */
     public Character() {
         super();
-        height = 16;
-        width = 16;
     }
 
     @Override

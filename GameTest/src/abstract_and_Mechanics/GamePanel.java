@@ -21,9 +21,9 @@ import real.Player;
 
 public class GamePanel extends JPanel
 {
-    private int panelWidth = 1200;
-    private int panelHeight = 900;
-    private Player player1 = new Player(new Point(panelWidth/2, panelHeight/2));
+    public static final int panelWidth = 1200;
+    public static final int panelHeight = 900;
+    public static Player player1 = new Player(new Point(panelWidth/2, panelHeight/2));
     private ScreenObject cursor = new Cursor(new Point(0,0));
     private List<Enemy> enemyList = new ArrayList<Enemy>();
 
@@ -37,8 +37,10 @@ public class GamePanel extends JPanel
         setBackground(Color.blue);
 
         //for level add new enemy to list
-        Enemy enemy1 = new Enemy(new Point(panelWidth-16, panelHeight/2));
+        Enemy enemy1 = new Enemy(new Point(panelWidth/2, panelHeight/2));
+        //Enemy enemy2 = new Enemy(new Point(panelWidth-16, panelHeight/2));
         enemyList.add(enemy1);
+        //enemyList.add(enemy2);
     }
 
     /**
@@ -48,14 +50,11 @@ public class GamePanel extends JPanel
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+
         player1.draw(g);
         cursor.draw(g);
-
-        for ( Enemy e : enemyList )
-        {
-            e.updatePP(player1.getPosition());
+        for ( Enemy e : enemyList ) {
             e.draw(g);
-
         }
     }
 
@@ -64,37 +63,44 @@ public class GamePanel extends JPanel
         // ----------------------------------------------------------
         /**
          * Captures the initial position at which the mouse button is
-         * pressed.
+         * pressed. (mouseClicked is pressed and released)
          * @param event The event to be handled
          */
-        public void mouseClicked(MouseEvent event)
+        public void mousePressed(MouseEvent event)
         {
             Point click = event.getPoint();
-            Point p1Position = player1.getPosition();
-            int stepSize = 5; //Speed
-            if(click.distance(p1Position) > 70) {
+            int stepSize = 5; //player Speed
+            if(click.distance(player1.position) > 60) {
                 stepSize = 10;
             }
-            else if(click.distance(p1Position) < 40) {
+            else if(click.distance(player1.position) < 30) {
                 stepSize = 2;
             }
 
-            if (click.y > p1Position.y) {
-                p1Position.y = p1Position.y + stepSize;
+            if (click.y > player1.position.y) {
+                player1.position.y = player1.position.y + stepSize;
             }
-            else if (click.y < p1Position.y){
-                p1Position.y = p1Position.y - stepSize;
+            else if (click.y < player1.position.y){
+                player1.position.y = player1.position.y - stepSize;
             }
-            if (click.x > p1Position.x) {
-                p1Position.x = p1Position.x + stepSize;
+            if (click.x > player1.position.x) {
+                player1.position.x = player1.position.x + stepSize;
             }
-            else if(click.x < p1Position.x){
-                p1Position.x = p1Position.x - stepSize;
+            else if(click.x < player1.position.x){
+                player1.position.x = player1.position.x - stepSize;
             }
-            player1.changePosition(p1Position);
             cursor.changePosition(click);
             repaint();
         }
+
+        /**
+         * Rightclick
+         */
+        /*public void mousePressed( MouseEvent e ) {
+            if ( e.isMetaDown() ) {
+                System.out.println( "Thanks!" );
+            }
+        }*/
     }
 
 }
